@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Note: Static export disabled due to dynamic routes with Firebase
-  // For Hostinger shared hosting, you'll need VPS or deploy to Vercel
+  // Dynamic routes with Firebase require server-side rendering
+  // Cannot use static export
   images: {
     unoptimized: true,
   },
