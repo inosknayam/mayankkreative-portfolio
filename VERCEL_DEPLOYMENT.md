@@ -40,7 +40,7 @@ git add .
 git commit -m "Initial commit - Portfolio ready for deployment"
 
 # Add GitHub as remote (replace YOUR-USERNAME with your GitHub username)
-git remote add origin https://github.com/YOUR-USERNAME/mayankkreative-portfolio.git
+git remote add origin https://github.com/inosknayam/mayankkreative-portfolio.git
 
 # Push to GitHub
 git branch -M main
