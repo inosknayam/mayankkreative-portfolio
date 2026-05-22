@@ -1,0 +1,149 @@
+// KidZone Staff Management – Prisma Schema (MySQL)
+// All personnel references are fully dynamic – no names or roles are hardcoded.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Role-Based Access Control ───────────────────────────────────────────────
+
+model StaffRole {
+  role_id          Int         @id @default(autoincrement())
+  role_name        String      @db.VarChar(100)  // e.g. 'Branch Manager', 'Event Lead', 'Caretaker'
+  permission_level Int         // 1=Caretaker, 2=Event Lead, 3=Branch Manager
+  created_at       DateTime    @default(now())
+  updated_at       DateTime    @updatedAt
+
+  staff_users      StaffUser[]
+
+  @@unique([role_name])
+  @@map("staff_roles")
+}
+
+// ─── Staff Users (no static names – managed entirely via this table) ──────────
+
+model StaffUser {
+  staff_id       Int           @id @default(autoincrement())
+  role_id        Int
+  full_name      String        @db.VarChar(150)
+  phone_number   String        @db.VarChar(20)   // E.164 format, e.g. +91XXXXXXXXXX
+  account_status AccountStatus @default(ACTIVE)
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updatedAt
+
+  role           StaffRole     @relation(fields: [role_id], references: [role_id])
+
+  // Audit back-references
+  check_ins_performed  AttendanceLog[] @relation("CheckInBy")
+  check_outs_verified  AttendanceLog[] @relation("VerifiedBy")
+  events_managed       Event[]
+  otp_sessions         OtpSession[]
+
+  @@unique([phone_number])
+  @@map("staff_users")
+}
+
+enum AccountStatus {
+  ACTIVE
+  INACTIVE
+}
+
+// ─── Children Registry ────────────────────────────────────────────────────────
+
+model Child {
+  child_id        Int      @id @default(autoincrement())
+  full_name       String   @db.VarChar(150)
+  date_of_birth   DateTime @db.Date
+  guardian_name   String   @db.VarChar(150)
+  guardian_phone  String   @db.VarChar(20)
+  guardian_photo_url String? @db.Text
+  child_photo_url    String? @db.Text
+  is_active       Boolean  @default(true)
+  notes           String?  @db.Text
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  attendance_logs AttendanceLog[]
+
+  @@map("children")
+}
+
+// ─── Attendance / Safe-Exit Audit Log ─────────────────────────────────────────
+// verified_by strictly maps to staff_users.staff_id – never a free-text field.
+
+model AttendanceLog {
+  log_id          Int       @id @default(autoincrement())
+  child_id        Int
+  event_id        Int?
+
+  check_in_time   DateTime  @default(now())
+  check_in_by_id  Int       // FK → staff_users.staff_id (who checked the child in)
+
+  check_out_time  DateTime?
+  verified_by_id  Int?      // FK → staff_users.staff_id (who pressed "Match Approved")
+
+  notes           String?   @db.Text
+  status          LogStatus @default(CHECKED_IN)
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  child           Child     @relation(fields: [child_id], references: [child_id])
+  event           Event?    @relation(fields: [event_id], references: [event_id])
+  checked_in_by   StaffUser @relation("CheckInBy", fields: [check_in_by_id], references: [staff_id])
+  verified_by     StaffUser? @relation("VerifiedBy", fields: [verified_by_id], references: [staff_id])
+
+  @@map("attendance_log")
+}
+
+enum LogStatus {
+  CHECKED_IN
+  CHECKED_OUT
+  ABSENT
+}
+
+// ─── Events ───────────────────────────────────────────────────────────────────
+
+model Event {
+  event_id    Int         @id @default(autoincrement())
+  event_name  String      @db.VarChar(200)
+  event_date  DateTime    @db.Date
+  managed_by  Int         // FK → staff_users.staff_id (dynamic – no hardcoded name)
+  location    String?     @db.VarChar(255)
+  description String?     @db.Text
+  status      EventStatus @default(UPCOMING)
+  created_at  DateTime    @default(now())
+  updated_at  DateTime    @updatedAt
+
+  manager       StaffUser       @relation(fields: [managed_by], references: [staff_id])
+  attendance    AttendanceLog[]
+
+  @@map("events")
+}
+
+enum EventStatus {
+  UPCOMING
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+// ─── OTP Sessions (for phone-based login) ────────────────────────────────────
+
+model OtpSession {
+  id           Int       @id @default(autoincrement())
+  staff_id     Int
+  phone_number String    @db.VarChar(20)
+  otp_code     String    @db.VarChar(10)
+  expires_at   DateTime
+  used         Boolean   @default(false)
+  created_at   DateTime  @default(now())
+
+  staff        StaffUser @relation(fields: [staff_id], references: [staff_id])
+
+  @@map("otp_sessions")
+}
