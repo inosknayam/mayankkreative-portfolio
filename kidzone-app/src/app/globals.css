@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Soft Blue ──────────────────────────── */
+  --color-blue-soft:   #DBEAFE;
+  --color-blue-muted:  #BFDBFE;
+  --color-blue-mid:    #93C5FD;
+  --color-blue-accent: #3B82F6;
+
+  /* ── Soft Pink ──────────────────────────── */
+  --color-pink-soft:   #FCE7F3;
+  --color-pink-muted:  #FBCFE8;
+  --color-pink-mid:    #F9A8D4;
+  --color-pink-accent: #EC4899;
+
+  /* ── Soft Yellow ────────────────────────── */
+  --color-yellow-soft:   #FEF9C3;
+  --color-yellow-muted:  #FEF3C7;
+  --color-yellow-mid:    #FDE68A;
+  --color-yellow-accent: #F59E0B;
+
+  /* ── Soft Purple ────────────────────────── */
+  --color-purple-soft:   #EDE9FE;
+  --color-purple-muted:  #DDD6FE;
+  --color-purple-mid:    #C4B5FD;
+  --color-purple-accent: #8B5CF6;
+
+  /* ── Soft Red ───────────────────────────── */
+  --color-red-soft:   #FEE2E2;
+  --color-red-muted:  #FECACA;
+  --color-red-mid:    #FCA5A5;
+  --color-red-accent: #EF4444;
+
+  /* ── Neutral ────────────────────────────── */
+  --color-surface:  #FAFAFA;
+  --color-card:     #FFFFFF;
+  --color-border:   #E5E7EB;
+  --color-text:     #1F2937;
+  --color-muted:    #6B7280;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-surface); }
+::-webkit-scrollbar-thumb { background: var(--color-purple-muted); border-radius: 99px; }
+
+/* ── Utility: glass card ────────────────────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+}
+
+/* ── Role badge colours ─────────────────────────────────── */
+.badge-purple { background: var(--color-purple-muted); color: #5B21B6; }
+.badge-blue   { background: var(--color-blue-muted);   color: #1D4ED8; }
+.badge-pink   { background: var(--color-pink-muted);   color: #9D174D; }
+.badge-yellow { background: var(--color-yellow-muted); color: #92400E; }
+.badge-red    { background: var(--color-red-muted);    color: #991B1B; }
