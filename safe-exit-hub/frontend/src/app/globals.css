@@ -1,0 +1,98 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-soft-blue: #a8d8ea;
+  --color-soft-blue-deep: #7eb8d4;
+  --color-soft-pink: #f8c8dc;
+  --color-soft-pink-deep: #e8a8c4;
+  --color-soft-yellow: #fff4c4;
+  --color-soft-yellow-deep: #ffe08a;
+  --color-soft-purple: #d4c4f0;
+  --color-soft-purple-deep: #b8a0e8;
+  --color-soft-red: #ffb4b4;
+  --color-soft-red-deep: #e89090;
+  --color-ink: #2d3142;
+  --color-ink-muted: #5c6378;
+}
+
+body {
+  color: var(--color-ink);
+  background: linear-gradient(
+    145deg,
+    var(--color-soft-blue) 0%,
+    var(--color-soft-pink) 35%,
+    var(--color-soft-yellow) 65%,
+    var(--color-soft-purple) 100%
+  );
+  min-height: 100vh;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(45, 49, 66, 0.08);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-soft-purple-deep), var(--color-soft-blue-deep));
+  color: white;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, var(--color-soft-red-deep), var(--color-soft-pink-deep));
+  color: white;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-soft-purple);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-ink);
+}
+
+.input-field:focus {
+  outline: 2px solid var(--color-soft-blue-deep);
+  outline-offset: 2px;
+}
+
+.badge-blue {
+  background: var(--color-soft-blue);
+  color: var(--color-ink);
+}
+.badge-pink {
+  background: var(--color-soft-pink);
+  color: var(--color-ink);
+}
+.badge-yellow {
+  background: var(--color-soft-yellow);
+  color: var(--color-ink);
+}
+.badge-purple {
+  background: var(--color-soft-purple);
+  color: var(--color-ink);
+}
+.badge-red {
+  background: var(--color-soft-red);
+  color: var(--color-ink);
+}
