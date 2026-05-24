@@ -1,4 +1,4 @@
-# KidZone / ResidantApp — Project Handoff Document
+# KidZoneStaff — Project Handoff Document
 
 Use this file when starting a **new chat** so the assistant has full context for the web app, API, database, RBAC, and the planned **iOS app** (Xcode).
 
@@ -11,7 +11,7 @@ Use this file when starting a **new chat** so the assistant has full context for
 | **Web + API app** | `/kidzone-app/` (Next.js 15, TypeScript, Tailwind v4, Prisma, MySQL) |
 | **Parent repo** | `mayankkreative-portfolio` (portfolio site at repo root; KidZone is a **separate subfolder**) |
 | **Git branch (feature)** | `cursor/kidzone-staff-rbac-app-f6fa` |
-| **iOS app** | **Not in repo yet** — user creates in Xcode locally as `ResidantApp` (Bundle: `AspiroLiving.ResidantApp`) |
+| **iOS app** | **Not in repo yet** — Xcode project at `~/Developer/KidZoneStaff` (Product: `KidZoneStaff`, Bundle: `TheFunnyMouse.KidZoneStaff`) |
 
 **Critical rule:** No staff names, manager names, or role permissions are hardcoded in app or API logic. Everything comes from MySQL tables `staff_roles` and `staff_users`.
 
@@ -229,26 +229,31 @@ kidzone-app/
 
 User is creating a **native iOS app** with the **same features** as the web app.
 
-### Xcode “Choose options” (filled by user)
+### Xcode “Choose options” (project settings)
 
 | Field | Value |
 |-------|--------|
-| Product Name | `ResidantApp` (or `KidZoneStaff`) |
-| Team | Mayank Soni (Personal Team) |
-| Organization Identifier | `AspiroLiving` |
-| Bundle Identifier | `AspiroLiving.ResidantApp` |
-| Testing System | None |
-| Storage | None |
-| Host in CloudKit | Unchecked |
+| **Product Name** | `KidZoneStaff` |
+| **Organization Identifier** | `The Funny Mouse` |
+| **Bundle Identifier** (auto) | `TheFunnyMouse.KidZoneStaff` |
+| **Project folder** | `~/Developer/KidZoneStaff` |
+| **Team** | Mayank Soni (Personal Team) |
+| **Testing System** | None |
+| **Storage** | None |
+| **Host in CloudKit** | Unchecked |
+
+> **Note:** Xcode builds the bundle ID from Organization Identifier + Product Name (spaces removed). If your Bundle ID differs, use whatever Xcode shows after you click Create.
 
 **Template:** iOS → App → **SwiftUI** → **Swift**
+
+**Save location:** On the folder step, choose `~/Developer/KidZoneStaff` (Create Git repository: optional).
 
 ### iOS does NOT exist in this repo yet
 
 Suggested structure when building:
 
 ```
-ResidantApp/
+~/Developer/KidZoneStaff/KidZoneStaff/
 ├── App/
 ├── Core/
 │   ├── APIClient.swift
@@ -351,9 +356,10 @@ For local dev, allow HTTP exception for dev host or use HTTPS in production.
 ## 16. Copy-paste prompt for new chat
 
 ```
-I'm building KidZone / ResidantApp — staff RBAC + child attendance.
+I'm building KidZoneStaff — staff RBAC + child attendance.
 
 Web API: kidzone-app/ (Next.js 15, Prisma, MySQL, Twilio OTP).
+iOS: Xcode project KidZoneStaff at ~/Developer/KidZoneStaff (org: The Funny Mouse).
 Read: kidzone-app/PROJECT_HANDOFF.md and kidzone-app/README.md
 
 Rules:
@@ -361,18 +367,22 @@ Rules:
 - verified_by_id and check_in_by_id are FKs to staff_users.staff_id
 - Soft UI colours: blue, pink, yellow, purple, red (pastels)
 
-I'm working on [web | iOS in Xcode ResidantApp | both].
+I'm working on [web | iOS KidZoneStaff | both].
 Help me with: [your task].
 ```
 
 ---
 
-## 17. Contact / identifiers
+## 17. Project identifiers
 
-- **Org ID:** AspiroLiving  
-- **iOS bundle:** AspiroLiving.ResidantApp  
-- **Web folder:** kidzone-app  
+| | |
+|--|--|
+| **iOS Product Name** | `KidZoneStaff` |
+| **Organization Identifier** | `The Funny Mouse` |
+| **iOS Bundle Identifier** | `TheFunnyMouse.KidZoneStaff` (Xcode default) |
+| **iOS project path** | `~/Developer/KidZoneStaff` |
+| **Web API folder** | `kidzone-app/` (in portfolio repo) |
 
 ---
 
-*Last updated: handoff for web app on branch `cursor/kidzone-staff-rbac-app-f6fa`; iOS not committed to repo.*
+*Last updated: KidZoneStaff / The Funny Mouse / ~/Developer/KidZoneStaff; web on branch `cursor/kidzone-staff-rbac-app-f6fa`; iOS local only.*
